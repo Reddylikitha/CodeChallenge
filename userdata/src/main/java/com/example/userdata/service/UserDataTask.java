@@ -53,9 +53,10 @@ public class UserDataTask {
 	        	  return countData(userDetails);
 	          }
 	          
-	          int count = 0;
+	          int count  ;
 	          public Map<String, Integer> countData(List<UserData> userDetails){
 	        	  
+	        	  count = 0;
 	        	
 	        	  Map<Integer, List<UserData>> map = userDetails
 	        			  .stream()
