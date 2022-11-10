@@ -13,11 +13,11 @@ import com.example.userdata.entity.UserData;
 
 @Service
 public class UserDataTask {
-	boolean update = false;
+	  static boolean update = false;
 	
 	 
 
-	   public List<UserData> updateData(UserData feedDetails,List<UserData> userDetails) {
+	   public static  List<UserData> updateData(UserData feedDetails,List<UserData> userDetails) {
 	                        update = false;
 	                    userDetails.stream().forEach(i -> {
 	                        if (i.getUserId() == feedDetails.getUserId()) {
@@ -34,7 +34,7 @@ public class UserDataTask {
 	                        }    
 	            }
 	                    
-	          public  List<UserData> printUpdatedData(UserData feedDetails, List<UserData> userDetails) {
+	          public   List<UserData> printUpdatedData(UserData feedDetails, List<UserData> userDetails) {
 	                		
 	        	
 	        	if (feedDetails.getUserId() == 0) {
@@ -48,13 +48,13 @@ public class UserDataTask {
 	                
 	   
 	 
-	          public Map<String, Integer> printCount(List<UserData> userDetails){
+	          public static Map<String, Integer> printCount(List<UserData> userDetails){
 	        	  
 	        	  return countData(userDetails);
 	          }
 	          
-	          int count  ;
-	          public Map<String, Integer> countData(List<UserData> userDetails){
+	          static int count  ;
+	          public static Map<String, Integer> countData(List<UserData> userDetails){
 	        	  
 	        	  count = 0;
 	        	
@@ -64,6 +64,7 @@ public class UserDataTask {
 	        	  if(map == null) {
 	        		  throw new RuntimeException("Data Not Found");
 	        	  }
+	        	  else {
 	        	  Map<String, Integer> mapUser = new HashMap<>();
 	        	  map.forEach((k,v) -> {
 	        		 
@@ -71,6 +72,7 @@ public class UserDataTask {
 	        	  });
 	        	  mapUser.put("Unique Userid's:", count);
 	        	  return mapUser;
+	          }
 	          }
 	}
 

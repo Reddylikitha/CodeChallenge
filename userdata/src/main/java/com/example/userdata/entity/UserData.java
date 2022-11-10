@@ -3,7 +3,10 @@ package com.example.userdata.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import lombok.Builder;
+
 @Entity
+@Builder
 public class UserData {
 	
 	@Id

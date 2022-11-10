@@ -18,7 +18,8 @@ import com.example.userdata.service.UserDataTask;
 @Service
 public class UserDataService {
 	
-RestTemplate  restTemplate = new RestTemplate();
+	@Autowired
+ RestTemplate  restTemplate; 
 	
 	@Autowired
 	UserDataTask serviceClass;
@@ -31,21 +32,21 @@ RestTemplate  restTemplate = new RestTemplate();
 	public List<UserData> updateDetails(UserData feedDetails) {
 	      
 	       
-        UserData[] user = restTemplate.getForObject(FeedLink, UserData[].class);
+        UserData[] user = restTemplate.getForObject("http://jsonplaceholder.typicode.com/posts", UserData[].class);
         List<UserData> userDetails;
        userDetails = new ArrayList<>(Arrays.asList(user));
        return serviceClass.printUpdatedData(feedDetails,userDetails);
 
 }
 	
-
 	public Map<String, Integer> printCount(){
+		UserData[] user = restTemplate.getForObject("http://jsonplaceholder.typicode.com/posts", UserData[].class);
+		userDetails = new ArrayList<>(Arrays.asList(user));
 		if(Optional.ofNullable(userDetails).isPresent()) {
 			return serviceClass.printCount(userDetails);
 		}
-		UserData[] user = restTemplate.getForObject(FeedLink, UserData[].class);
-		userDetails = new ArrayList<>(Arrays.asList(user));
-		return serviceClass.printCount(userDetails);
+		
+		return null;
 		}
 
 }

@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,14 +28,16 @@ public class UserDataController {
 	@Autowired
 	UserDataService restClient;
 	
-	@GetMapping("/countData")
-	public Map<String,Integer> allUserData() throws JsonMappingException, JsonProcessingException{
-		return restClient.printCount();
+	
+	
+	@GetMapping
+	public ResponseEntity<Map<String,Integer>> allUserData() throws JsonMappingException, JsonProcessingException{
+		return new ResponseEntity<>(restClient.printCount(),HttpStatus.OK);
 	}
 	
-	@PutMapping("/update")
-	public List<UserData> updatedata(@RequestBody UserData feedDetails) {
-		return restClient.updateDetails(feedDetails);
+	@PutMapping
+	public ResponseEntity<List<UserData>> updatedata(@RequestBody UserData feedDetails)throws Exception {
+		return new ResponseEntity<List<UserData>>(restClient.updateDetails(feedDetails),HttpStatus.CREATED);
 	}
 
 }
