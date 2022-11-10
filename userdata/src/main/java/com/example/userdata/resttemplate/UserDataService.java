@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,22 +21,25 @@ import com.example.userdata.service.UserDataTask;
 public class UserDataService {
 	
 	@Autowired
- RestTemplate  restTemplate; 
+   private RestTemplate  restTemplate; 
 	
 	@Autowired
-	UserDataTask serviceClass;
+	private UserDataTask serviceClass;
 	
 	List<UserData>  userDetails;
 	
 	@Value ("${JsonFeed:http://localhost:}")
 	String FeedLink;
 	
+	 private static final Logger logger = LoggerFactory.getLogger(UserDataService.class);
+	  
+	
 	public List<UserData> updateDetails(UserData feedDetails) {
 	      
-	       
         UserData[] user = restTemplate.getForObject("http://jsonplaceholder.typicode.com/posts", UserData[].class);
-        List<UserData> userDetails;
-       userDetails = new ArrayList<>(Arrays.asList(user));
+        List<UserData> userDetails = new ArrayList<>(Arrays.asList(user));
+
+	       logger.info("details have been updated");
        return serviceClass.printUpdatedData(feedDetails,userDetails);
 
 }
@@ -42,11 +47,12 @@ public class UserDataService {
 	public Map<String, Integer> printCount(){
 		UserData[] user = restTemplate.getForObject("http://jsonplaceholder.typicode.com/posts", UserData[].class);
 		userDetails = new ArrayList<>(Arrays.asList(user));
-		if(Optional.ofNullable(userDetails).isPresent()) {
-			return serviceClass.printCount(userDetails);
-		}
+		Optional.ofNullable(userDetails)
+        .orElseThrow( RuntimeException::new );
 		
-		return null;
+			return serviceClass.printCount(userDetails);
+		
+		
 		}
 
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.example.userdata.entity.UserData;
@@ -15,7 +17,8 @@ import com.example.userdata.entity.UserData;
 public class UserDataTask {
 	  static boolean update = false;
 	
-	 
+	  private static final Logger logger = LoggerFactory.getLogger(UserDataTask.class);
+	  
 
 	   public static  List<UserData> updateData(UserData feedDetails,List<UserData> userDetails) {
 	                        update = false;
@@ -24,12 +27,15 @@ public class UserDataTask {
 	                            i.setBody(feedDetails.getBody());
 	                            i.setTitle(feedDetails.getTitle());
 	                            update = true;
+	                           
 	                        }
 	                    });
 	                    if (update == true) {
+	                    	logger.info("Details are updated");
 	                        return userDetails;
 	                    } 
 	                    else {
+	                    	logger.error("UserId not Found:" +feedDetails.getUserId());
 	                        throw new RuntimeException("No changes made as userId not found!");
 	                        }    
 	            }
